@@ -117,7 +117,7 @@ func TestReferenceParse(t *testing.T) {
 			tag:        "Uppercase",
 		},
 		{
-			input: strings.Repeat("a/", 128) + "a:tag",
+			input: "domain/" + strings.Repeat("a", 256) + ":tag",
 			err:   ErrNameTooLong,
 		},
 		{
@@ -265,6 +265,12 @@ func TestReferenceParse(t *testing.T) {
 		{
 			input: "[fe80::1%@invalidzone]:5000/repo",
 			err:   ErrReferenceInvalidFormat,
+		},
+		{
+			input:      "domain/" + strings.Repeat("a", 255) + ":tag",
+			domain:     "domain",
+			repository: "domain/" + strings.Repeat("a", 255),
+			tag:        "tag",
 		},
 	}
 	for _, tc := range tests {
